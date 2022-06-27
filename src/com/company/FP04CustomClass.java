@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,9 @@ class Course {
 public class FP04CustomClass {
 
     public static void main(String[] args) {
+
+        List<String> courses1 = List.of("Spring","Spring Boot","API","Microservices","AWS","PCF","Azure","Docker","Kubernetes");
+
         List<Course> courses = List.of(
                 new Course("Spring", "Framework", 98, 20000),
                 new Course("Spring Boot", "Framework", 95, 18000),
@@ -207,11 +211,16 @@ public class FP04CustomClass {
 
         //TODO : Higher Order Function -> Function which returns a function
 
-        int cutoffReviewScore = 95;
-        Predicate<Course> reviewScoreGreaterThan95Predicate2 = createPredicateWithCutoffReviewScore(cutoffReviewScore);
-        Predicate<Course> reviewScoreLessThan90Predicate2 = course -> course.getReviewScore() < 90;
+        Predicate<Course> reviewScoreGreaterThan95Predicate2 = createPredicateWithCutoffReviewScore(95);
+        Predicate<Course> reviewScoreLessThan90Predicate2 = createPredicateWithCutoffReviewScore(90);
 
-
+        //peek() -> this function helps us undertsand the flow of stream and what parameters it is going through to
+        //perform the operation specified in filter/map
+        //for peek to work we need to have terminal function which returns a Stream item.
+        //until a terminal function is called the whole stream is in Pipeline.
+        Optional<String> first = courses1.stream().filter(course -> course.length() > 11)
+                .map(String::toUpperCase).findFirst();
+        System.out.println(first.get());
 
     }
 
